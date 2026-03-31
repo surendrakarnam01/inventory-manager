@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Inventory Manager - Contact{% endblock %}
+
+{% block content %}
+  <section class="form-shell">
+    <div class="form-card">
+      <h2 class="form-title">Contact Support</h2>
+      <p class="text-muted m-0 mb-16">
+        Send us a message and we'll get back to you. (This demo stores the message locally and does not send email.)
+      </p>
+
+      <form method="POST" action="{{ url_for('contact') }}">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" value="{{ request.form.get('name','') }}">
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" value="{{ request.form.get('email','') }}">
+          </div>
+
+          <div class="field full">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="How can we help?">{{ request.form.get('message','') }}</textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary btn-full" type="submit">Submit Message</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">🛡️</div>
+        <h3 class="feature-title">Support info</h3>
+        <p class="feature-desc">
+          For app-related questions, use the form above. Your inventory stays private to your account.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">💡</div>
+        <h3 class="feature-title">Quick tips</h3>
+        <p class="feature-desc">
+          Add products from the dashboard and watch for low stock alerts when quantity is 1 or less.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">🧾</div>
+        <h3 class="feature-title">Keep it organized</h3>
+        <p class="feature-desc">
+          Use meaningful categories so your dashboard totals stay useful.
+        </p>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

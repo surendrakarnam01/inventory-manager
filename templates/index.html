@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Inventory Manager - Home{% endblock %}
+
+{% block content %}
+  <section class="hero-full">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container hero-flex">
+      <div class="hero-left-col">
+        <h1 class="gradient-text animate-card">Track every item. Know what's low.</h1>
+        <p class="hero-sub text-muted">
+          Inventory Manager helps you organize products, monitor stock levels, and keep your data tidy—so you can restock at the right time.
+        </p>
+
+        <div class="hero-cta">
+          {% if current_user.is_authenticated %}
+            <a class="btn btn-primary" href="{{ url_for('dashboard') }}">Go to Dashboard</a>
+          {% else %}
+            <a class="btn btn-primary" href="{{ url_for('register') }}">Get Started</a>
+          {% endif %}
+          <a class="btn btn-outline" href="{{ url_for('about') }}">Learn More</a>
+        </div>
+
+        <aside class="hero-side animate-card">
+          <div class="side-title heading">Inventory, made simple</div>
+          <div class="mini-metrics">
+            <div class="metric">
+              <div class="value">⚡ Fast</div>
+              <div class="label">Add & update products quickly</div>
+            </div>
+            <div class="metric">
+              <div class="value">🔎 Clear</div>
+              <div class="label">Dashboard shows what matters</div>
+            </div>
+            <div class="metric">
+              <div class="value">🔒 Private</div>
+              <div class="label">Each user sees only their own items</div>
+            </div>
+            <div class="metric">
+              <div class="value">📉 Smart alerts</div>
+              <div class="label">Warns when quantity is 1 or less</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="hero-right-col">
+        <img
+          class="hero-photo"
+          src="{{ url_for('static', filename='images/hero.jpg') }}"
+          alt="Inventory hero"
+          loading="lazy"
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="features container">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon feature-emoji-large" aria-hidden="true">🛒</div>
+        <h3 class="feature-title">Track Inventory</h3>
+        <p class="feature-desc">Add products with category, price, quantity, and descriptions—organized per user.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon feature-emoji-large" aria-hidden="true">⚠️</div>
+        <h3 class="feature-title">Low Stock Alerts</h3>
+        <p class="feature-desc">Get a warning badge whenever item quantity is 1 or less.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon feature-emoji-large" aria-hidden="true">📦</div>
+        <h3 class="feature-title">Easy Management</h3>
+        <p class="feature-desc">Edit or delete products from your dashboard with a clean, modern UI.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="cta-panel card card-glass animate-card">
+      <h3 class="heading m-0 mb-10">Ready to take control?</h3>
+      <p class="text-muted m-0">
+        Create your account and start tracking products immediately.
+      </p>
+      {% if current_user.is_authenticated %}
+        <a class="btn btn-primary" href="{{ url_for('add_product') }}">Add Your First Product</a>
+      {% else %}
+        <a class="btn btn-primary" href="{{ url_for('register') }}">Register Now</a>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+

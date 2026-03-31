@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Inventory Manager - About{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="card card-glass animate-card p-22">
+      <h2 class="page-title">What is Inventory Manager?</h2>
+      <p class="text-muted m-0 max-70ch">
+        Inventory Manager is a simple web app that lets each user maintain their own product list.
+        Add products, edit details, track quantities, and quickly spot low stock items with a warning badge when
+        quantity is 1 or less.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">🧠</div>
+        <h3 class="feature-title">Designed for clarity</h3>
+        <p class="feature-desc">
+          A clean dashboard shows totals and categories at a glance, plus an easy-to-use products table.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">👤</div>
+        <h3 class="feature-title">Private per user</h3>
+        <p class="feature-desc">
+          Products are stored with a `user_id`, so every logged-in user sees only their own inventory.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">⚙️</div>
+        <h3 class="feature-title">Simple CRUD flow</h3>
+        <p class="feature-desc">
+          Add, edit, and delete products with protected routes and instant updates on the dashboard.
+        </p>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

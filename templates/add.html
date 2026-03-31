@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Add Product - Inventory Manager{% endblock %}
+
+{% block content %}
+  <section class="form-shell">
+    <div class="form-card">
+      <h2 class="form-title">Add Product</h2>
+
+      <form method="POST" action="{{ url_for('add_product') }}">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Product name" value="{{ request.form.get('name','') }}" required>
+          </div>
+
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+              <option value="Kitchen Groceries" {% if request.form.get('category','') == 'Kitchen Groceries' %}selected{% endif %}>Kitchen Groceries</option>
+              <option value="Vegetables & Fruits" {% if request.form.get('category','') == 'Vegetables & Fruits' %}selected{% endif %}>Vegetables & Fruits</option>
+              <option value="Dairy Products" {% if request.form.get('category','') == 'Dairy Products' %}selected{% endif %}>Dairy Products</option>
+              <option value="Beverages" {% if request.form.get('category','') == 'Beverages' %}selected{% endif %}>Beverages</option>
+              <option value="Snacks & Sweets" {% if request.form.get('category','') == 'Snacks & Sweets' %}selected{% endif %}>Snacks & Sweets</option>
+              <option value="Cleaning Supplies" {% if request.form.get('category','') == 'Cleaning Supplies' %}selected{% endif %}>Cleaning Supplies</option>
+              <option value="Personal Care" {% if request.form.get('category','') == 'Personal Care' %}selected{% endif %}>Personal Care</option>
+              <option value="Stationery" {% if request.form.get('category','') == 'Stationery' %}selected{% endif %}>Stationery</option>
+              <option value="Electronics" {% if request.form.get('category','') == 'Electronics' %}selected{% endif %}>Electronics</option>
+              <option value="Other" {% if request.form.get('category','') == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="unit">Unit</label>
+            <select id="unit" name="unit" required>
+              <option value="pieces" {% if request.form.get('unit','') == 'pieces' %}selected{% endif %}>pieces</option>
+              <option value="kg" {% if request.form.get('unit','') == 'kg' %}selected{% endif %}>kg</option>
+              <option value="gm" {% if request.form.get('unit','') == 'gm' %}selected{% endif %}>gm</option>
+              <option value="litre" {% if request.form.get('unit','') == 'litre' %}selected{% endif %}>litre</option>
+              <option value="ml" {% if request.form.get('unit','') == 'ml' %}selected{% endif %}>ml</option>
+              <option value="packet" {% if request.form.get('unit','') == 'packet' %}selected{% endif %}>packet</option>
+              <option value="dozen" {% if request.form.get('unit','') == 'dozen' %}selected{% endif %}>dozen</option>
+              <option value="box" {% if request.form.get('unit','') == 'box' %}selected{% endif %}>box</option>
+              <option value="bottle" {% if request.form.get('unit','') == 'bottle' %}selected{% endif %}>bottle</option>
+              <option value="bag" {% if request.form.get('unit','') == 'bag' %}selected{% endif %}>bag</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="price">Price</label>
+            <input id="price" name="price" type="number" min="0" step="0.01" placeholder="0.00" value="{{ request.form.get('price','') }}">
+          </div>
+
+          <div class="field">
+            <label for="quantity">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="0" step="1" placeholder="0" value="{{ request.form.get('quantity','') }}">
+          </div>
+
+          <div class="field full">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Optional details...">{{ request.form.get('description','') }}</textarea>
+          </div>
+        </div>
+
+        <div class="form-actions form-actions-col">
+          <button class="btn btn-primary btn-full" type="submit">Save</button>
+          <a class="btn btn-outline btn-full" href="{{ url_for('dashboard') }}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock %}
+

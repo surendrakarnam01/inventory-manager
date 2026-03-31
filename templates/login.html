@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Login - Inventory Manager{% endblock %}
+
+{% block content %}
+  <section class="form-shell">
+    <div class="auth-layout">
+      <div class="auth-left" aria-hidden="true">
+        <img
+          class="auth-illustration"
+          src="{{ url_for('static', filename='images/auth.svg') }}"
+          alt="Authentication illustration"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="auth-right">
+        <div class="form-card">
+          <h2 class="form-title">Log In</h2>
+          <p class="text-muted m-0 mb-16">Use your email and password to access your dashboard.</p>
+
+          <form method="POST" action="{{ url_for('login_post') }}">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value="{{ request.form.get('email','') }}"
+                  required
+                >
+              </div>
+              <div class="field full">
+                <label for="password">Password</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Your password"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary btn-full" type="submit">Login</button>
+              <a class="btn btn-gradient-border btn-full" href="{{ url_for('register') }}">Create Account</a>
+            </div>
+
+            <p class="text-muted m-0 mt-8" style="font-size:13px;">
+              <a
+                href="{{ url_for('forgot_password') }}"
+                style="color:var(--muted); text-decoration:none;"
+                onmouseover="this.style.color='#7c3aed';"
+                onmouseout="this.style.color='var(--muted)';"
+              >
+                Forgot Password?
+              </a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Inventory Manager{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="welcome-banner animate-card">
+      <img
+        class="welcome-img"
+        src="{{ url_for('static', filename='images/dashboard.jpg') }}"
+        alt="Dashboard banner"
+        loading="lazy"
+      >
+      <div class="welcome-overlay" aria-hidden="true"></div>
+      <div class="welcome-text">
+        <h2 class="dash-title m-0">Welcome, {{ current_user.username }}</h2>
+        <p class="text-muted m-0">Manage your products and monitor stock levels.</p>
+      </div>
+    </div>
+
+    <div class="dash-header">
+      <a class="btn btn-primary btn-add" href="{{ url_for('add_product') }}">Add New Product</a>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card animate-card">
+        <div class="stat-k">Total Products</div>
+        <div class="stat-v">{{ total_products }}</div>
+      </div>
+
+      <div class="stat-card accent-cyan animate-card">
+        <div class="stat-k">Low Stock</div>
+        <div class="stat-v {% if low_stock_count > 0 %}danger-text{% endif %}">{{ low_stock_count }}</div>
+      </div>
+
+      <div class="stat-card accent-green animate-card">
+        <div class="stat-k">Total Categories</div>
+        <div class="stat-v">{{ total_categories }}</div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <style>
+        .table-card{
+          overflow:visible;
+        }
+
+        .table-card .products-table{
+          width:100%;
+          border-collapse:separate;
+          border-spacing:0 8px;
+          font-size:14px;
+          table-layout:fixed;
+        }
+
+        .table-card .products-table thead th{
+          text-align:left;
+          padding:16px 20px;
+          color:#7c3aed;
+          font-weight:900;
+          letter-spacing:1px;
+          text-transform:uppercase;
+          font-size:0.75rem;
+          background:#0f0f1a;
+          border:0;
+        }
+
+        .table-card .products-table thead th:nth-child(1),
+        .table-card .products-table tbody td:nth-child(1){
+          width:60px;
+          padding-left:20px;
+        }
+
+        .table-card .products-table thead th:nth-child(2),
+        .table-card .products-table tbody td:nth-child(2){
+          width:150px;
+        }
+
+        .table-card .products-table thead th:nth-child(3),
+        .table-card .products-table tbody td:nth-child(3){
+          width:180px;
+        }
+
+        .table-card .products-table thead th:nth-child(4),
+        .table-card .products-table tbody td:nth-child(4){
+          width:120px;
+        }
+
+        .table-card .products-table thead th:nth-child(5),
+        .table-card .products-table tbody td:nth-child(5){
+          width:160px;
+        }
+
+        .table-card .products-table thead th:nth-child(6),
+        .table-card .products-table tbody td:nth-child(6){
+          width:130px;
+          text-align:center;
+        }
+
+        .table-card .products-table tbody td{
+          padding:16px 20px;
+          border:0;
+          border-bottom:0;
+          vertical-align:middle;
+          background:#12121e;
+          transition: all 0.25s ease;
+        }
+
+        .table-card .products-table tbody td:first-child{
+          border-left:3px solid #7c3aed;
+          border-radius:8px 0 0 8px;
+        }
+
+        .table-card .products-table tbody td:last-child{
+          border-top-right-radius:14px;
+          border-bottom-right-radius:14px;
+        }
+
+        .table-card .products-table tbody tr:hover td{
+          background:#1e1e35;
+          transform: translateX(4px);
+          box-shadow: 0 0 20px rgba(124, 58, 237, 0.15);
+        }
+
+        .table-card .products-table tbody tr:hover td:first-child{
+          position:relative;
+          z-index:2;
+        }
+
+        .table-card .products-table .col-name{
+          color:#ffffff;
+          font-weight:900;
+          font-size:1rem;
+        }
+
+        .table-card .products-table .category-pill{
+          display:inline-flex;
+          align-items:center;
+          background:rgba(124,58,237,0.15);
+          color:#a78bfa;
+          padding:4px 10px;
+          border-radius:20px;
+          font-weight:800;
+          white-space:nowrap;
+        }
+
+        .table-card .products-table .col-price{
+          color:#10b981;
+          font-weight:900;
+        }
+
+        .table-card .products-table .col-qty-unit{
+          color:#ffffff;
+          font-weight:900;
+        }
+
+        .table-card .products-table .qty-unit-wrap{
+          display:flex;
+          align-items:center;
+          gap:10px;
+          flex-wrap:wrap;
+        }
+
+        @keyframes blink {
+          0%,100%{ opacity:1; }
+          50%{ opacity:0.4; }
+        }
+
+        .table-card .products-table .low-stock-pill{
+          background:rgba(239,68,68,0.15);
+          color:#ef4444;
+          border:1px solid #ef4444;
+          padding:3px 10px;
+          border-radius:20px;
+          font-size:0.75rem;
+          font-weight:900;
+          animation: blink 1.5s infinite;
+          white-space:nowrap;
+        }
+
+        .table-card .products-table .actions{
+          gap:10px;
+          align-items:center;
+        }
+
+        .table-card .products-table .form{
+          margin:0;
+        }
+
+        .table-card .products-table form{
+          margin:0;
+        }
+
+        .table-card .products-table .action-btn{
+          padding:6px 16px;
+          border-radius:8px;
+          font-size:0.85rem;
+          transition: all 0.2s ease;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          cursor:pointer;
+          font-weight:900;
+          border:1px solid transparent;
+          background:transparent;
+          line-height:1.2;
+          text-decoration:none;
+        }
+
+        .table-card .products-table .edit-btn{
+          border-color:#7c3aed;
+          color:#7c3aed;
+        }
+
+        .table-card .products-table .edit-btn:hover{
+          background:#7c3aed;
+          color:#ffffff;
+        }
+
+        .table-card .products-table .delete-btn{
+          border-color:#ef4444;
+          color:#ef4444;
+        }
+
+        .table-card .products-table .delete-btn:hover{
+          background:#ef4444;
+          color:#ffffff;
+        }
+
+        .table-card .products-empty{
+          padding:16px 20px;
+          text-align:center;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          gap:14px;
+        }
+
+        .table-card .products-empty .empty-message{
+          margin:0;
+          font-size:18px;
+          font-weight:900;
+        }
+
+        .table-card .products-empty .empty-message span{
+          color:#7c3aed;
+        }
+      </style>
+
+      {% if products.count() == 0 %}
+        <div class="products-empty">
+          <h3 class="empty-message">📦 No products yet. Add your first product!</h3>
+          <a class="btn btn-primary" href="{{ url_for('add_product') }}">Add Product</a>
+        </div>
+      {% else %}
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Quantity + Unit</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+              <tr>
+                <td>{{ product.id }}</td>
+                <td class="col-name">{{ product.name }}</td>
+                <td>
+                  <span class="category-pill">{{ product.category }}</span>
+                </td>
+                <td class="col-price">₹{{ '{:,.2f}'.format(product.price) }}</td>
+                <td class="col-qty-unit">
+                  <div class="qty-unit-wrap">
+                    <span>{{ product.quantity }} {{ product.unit }}</span>
+                    {% if product.quantity <= 1 %}
+                      <span class="low-stock-pill">⚠️ Low</span>
+                    {% endif %}
+                  </div>
+                </td>
+                <td>
+                  <div class="actions">
+                    <a class="action-btn edit-btn" href="{{ url_for('edit_product', id=product.id) }}">Edit</a>
+                    <form method="POST" action="{{ url_for('delete_product', id=product.id) }}">
+                      <button class="action-btn delete-btn" type="submit" onclick="return confirm('Delete this product?');">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+
